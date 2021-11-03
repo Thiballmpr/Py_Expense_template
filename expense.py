@@ -1,4 +1,5 @@
 from PyInquirer import prompt
+import csv
 
 expense_questions = [
     {
@@ -11,19 +12,66 @@ expense_questions = [
         "name":"label",
         "message":"New Expense - Label: ",
     },
-    {
-        "type":"input",
-        "name":"spender",
-        "message":"New Expense - Spender: ",
-    },
-
 ]
 
+def users_list():
+    str = []
+    with open('users.csv', 'r', newline='') as csvfile:
+        spamwriter = csv.reader(csvfile, delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        for user in spamwriter:
+            str.append(user[0])
+    return str
+
+def involved_user(spenders, spender):
+    res = []
+    res.append(spender)
+
+    count = 0
+    for user in spenders:
+        if user == spender:
+            spenders.pop(count)
+        count += 1
+
+    involved = {
+        "type":"list",
+        "name":"involved",
+        "message":"Choose an involved user",
+        "choices": spenders + ['Done']
+    }
+    inv = prompt(involved)
+
+    while (inv["involved"] != "Done"):
+        res.append(inv['involved'])
+        involved_user
+        inv = prompt(involved)
+    return res
+
+    
+
+        
 
 
 def new_expense(*args):
     infos = prompt(expense_questions)
-    # Writing the informations on external file might be a good idea ¯\_(ツ)_/¯
+
+    spenders = users_list()
+
+    users = {
+        "type":"list",
+        "name":"user",
+        "message":"Choose a Spender",
+        "choices": spenders
+    }
+    option = prompt(users)
+
+    user = option['user']
+
+    inv = involved_user(spenders, user)
+
+
+    with open('expense_report.csv', 'a', newline='') as csvfile:
+        spamwriter = csv.writer(csvfile, delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        spamwriter.writerow([infos['amount'], infos['label'], user, inv])
     print("Expense Added !")
     return True
 
