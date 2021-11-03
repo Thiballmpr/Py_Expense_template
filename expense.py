@@ -22,15 +22,18 @@ def users_list():
             str.append(user[0])
     return str
 
+def pop_from_list(list, token):
+    count = 0
+    for user in list:
+        if user == token:
+            return count
+        count += 1
+
 def involved_user(spenders, spender):
     res = []
     res.append(spender)
-
-    count = 0
-    for user in spenders:
-        if user == spender:
-            spenders.pop(count)
-        count += 1
+    
+    spenders.pop(pop_from_list(spenders, spender))
 
     involved = {
         "type":"list",
@@ -42,7 +45,13 @@ def involved_user(spenders, spender):
 
     while (inv["involved"] != "Done"):
         res.append(inv['involved'])
-        involved_user
+        spenders.pop(pop_from_list(spenders, inv['involved']))
+        involved = {
+            "type":"list",
+            "name":"involved",
+            "message":"Choose an involved user",
+            "choices": spenders + ['Done']
+        }
         inv = prompt(involved)
     return res
 
