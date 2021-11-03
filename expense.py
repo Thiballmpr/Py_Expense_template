@@ -46,11 +46,6 @@ def involved_user(spenders, spender):
         inv = prompt(involved)
     return res
 
-    
-
-        
-
-
 def new_expense(*args):
     infos = prompt(expense_questions)
 
@@ -68,10 +63,11 @@ def new_expense(*args):
 
     inv = involved_user(spenders, user)
 
+    divided_sum = int(infos["amount"]) / len(inv)
 
     with open('expense_report.csv', 'a', newline='') as csvfile:
         spamwriter = csv.writer(csvfile, delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
-        spamwriter.writerow([infos['amount'], infos['label'], user, inv])
+        spamwriter.writerow([int(infos['amount']), infos['label'], user, inv, divided_sum])
     print("Expense Added !")
     return True
 

@@ -1,3 +1,2 @@
-10 table tibo 
-10 chaise SIGL |['RDuval', 'PChojka', 'tibo']|
-10 tapis tibo |['SIGL', 'RDuval', 'PChojka']|
+Amount, Label, Spender, Involved_users[], Divided_sum_per_user 
+10 tutu tibo |['tibo', 'SIGL']| 5.0
